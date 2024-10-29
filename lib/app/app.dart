@@ -1,3 +1,4 @@
+import 'package:cineflix/app/app_bindings.dart';
 import 'package:cineflix/app/routes/app_pages.dart';
 import 'package:cineflix/core/constants/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     final apptheme =  AppTheme();
     return GetMaterialApp(
+      initialBinding: AppBindings(),
       theme: apptheme.theme,
       darkTheme: apptheme.darktheme,
       themeMode: apptheme.thememode,
