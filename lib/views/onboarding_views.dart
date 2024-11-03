@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'dart:math';
 
-import 'package:cineflix/app/routes/app_routes.dart';
+import 'package:cineflix/controllers/authController.dart';
 import 'package:cineflix/core/constants/app_strings.dart';
 import 'package:cineflix/core/services/api_service.dart';
 import 'package:cineflix/resources/appTextStyle.dart';
@@ -15,6 +15,7 @@ import 'package:marquee_list/marquee_list.dart';
 class OnboardingViews extends StatelessWidget {
   OnboardingViews({super.key});
   final controller = PageController();
+  final _logincontroller = Get.put(Authcontroller());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +59,7 @@ class OnboardingViews extends StatelessWidget {
           ),
         ),
         height_space(50),
-        AppButtons().primary_button(() {
+        AppButtons().primary_button(callback: () {
           controller.animateToPage(1,
               duration: Duration(milliseconds: 2), curve: Curves.linear);
         })
@@ -95,7 +96,7 @@ class OnboardingViews extends StatelessWidget {
           ),
         ),
         height_space(50),
-        AppButtons().primary_button(() {
+        AppButtons().primary_button(callback: () {
           controller.animateToPage(2,
               duration: Duration(milliseconds: 2), curve: Curves.linear);
         })
@@ -132,7 +133,7 @@ class OnboardingViews extends StatelessWidget {
           ),
         ),
         height_space(50),
-        AppButtons().primary_button(() {
+        AppButtons().primary_button(callback: () {
           controller.animateToPage(3,
               duration: Duration(milliseconds: 2), curve: Curves.linear);
         })
@@ -145,7 +146,9 @@ class OnboardingViews extends StatelessWidget {
         future: ApiService().getbackkgroundbanner(),
         builder: (context, snapshot) {
           return Container(
+            height: Get.height,
             child: Stack(
+              clipBehavior: Clip.none,
               children: [
                 Container(
                   width: Get.width,
@@ -155,7 +158,7 @@ class OnboardingViews extends StatelessWidget {
                           children: [
                             for (var banner in List.generate(6, (i) {
                               List banner = snapshot.data!['banner'] as List;
-                              banner.shuffle(Random(i));
+                              banner.shuffle(Random());
                               return banner;
                             }))
                               MarqueeList(
@@ -175,17 +178,16 @@ class OnboardingViews extends StatelessWidget {
                         ),
                 ),
                 Container(
-                  height: Get.height,
+                  // height: Get.height,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
+                      begin: Alignment(-0.21, -0.98),
+                      end: Alignment(0.21, 0.98),
                       colors: [
-                        Colors.black87,
-                        Colors.black26,
-                        Colors.black26,
-                        Colors.black87,
+                        Colors.black,
+                        Colors.black.withOpacity(0.5699999928474426),
+                        Colors.black.withOpacity(0.9599999785423279)
                       ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
                     ),
                   ),
                   child: Column(
@@ -207,7 +209,21 @@ class OnboardingViews extends StatelessWidget {
                           ),
                         ),
                       ),
-                      onboardIndicator(3, 4)
+                      Column(
+                        children: [
+                          onboardIndicator(3, 4),
+                          height_space(30),
+                          AppButtons().secondry_button(ontap: () {
+                            _logincontroller.showLogin();
+                          }),
+                          height_space(30),
+                          AppButtons().primary_button(
+                              callback: () {
+                                _logincontroller.loginWithWallet();
+                              },
+                              label: "Connect Web3 Wallet"),
+                        ],
+                      ),
                     ],
                   ),
                 )

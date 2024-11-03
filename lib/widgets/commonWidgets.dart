@@ -1,6 +1,7 @@
 import 'package:cineflix/resources/assets/images.dart';
 import 'package:cineflix/resources/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 SizedBox height_space(double? height)=>SizedBox(height: height??10,);
 Image logoWidget() => Image.asset(ImagePaths.logo);
 Widget onboardIndicator(int index, int total) => SizedBox(
@@ -21,3 +22,9 @@ Widget onboardIndicator(int index, int total) => SizedBox(
         ],
       ),
     );
+
+showLoader()=>Get.dialog(Center(child: CircularProgressIndicator(
+  color: const Color(0xFFF2AA4C),
+),));
+
+removeLoader()=>Get.back();
