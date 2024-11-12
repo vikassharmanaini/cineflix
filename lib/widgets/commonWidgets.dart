@@ -3,7 +3,8 @@ import 'package:cineflix/resources/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 SizedBox height_space(double? height)=>SizedBox(height: height??10,);
-Image logoWidget() => Image.asset(ImagePaths.logo);
+SizedBox width_space(double? height)=>SizedBox(width: height??10,);
+Image logoWidget({double? width,double? height}) => Image.asset(ImagePaths.logo,width: width,height: height,);
 Widget onboardIndicator(int index, int total) => SizedBox(
       width: 82,
       child: Row(

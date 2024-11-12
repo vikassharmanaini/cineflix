@@ -1,11 +1,13 @@
 import 'dart:developer';
 import 'dart:math';
 
+import 'package:cineflix/app/routes/app_routes.dart';
 import 'package:cineflix/controllers/authController.dart';
 import 'package:cineflix/core/constants/app_strings.dart';
 import 'package:cineflix/core/services/api_service.dart';
 import 'package:cineflix/resources/appTextStyle.dart';
 import 'package:cineflix/resources/assets/images.dart';
+import 'package:cineflix/resources/colors.dart';
 import 'package:cineflix/widgets/AppButtons.dart';
 import 'package:cineflix/widgets/commonWidgets.dart';
 import 'package:flutter/material.dart';
@@ -222,6 +224,15 @@ class OnboardingViews extends StatelessWidget {
                                 _logincontroller.loginWithWallet();
                               },
                               label: "Connect Web3 Wallet"),
+                          height_space(30),
+                          GestureDetector(
+                            onTap: (){
+                              Get.offAllNamed(AppRoutes.home);
+                            },
+                            child: Text("Skip",style:TextStyle(
+                              color:AppColors().indicator
+                            )),
+                          )
                         ],
                       ),
                     ],

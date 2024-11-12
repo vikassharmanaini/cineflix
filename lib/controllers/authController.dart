@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:typed_data';
 
@@ -15,6 +16,7 @@ import 'package:m_toast/m_toast.dart';
 class Authcontroller extends GetxController {
   ApiService _apiService = ApiService();
   WalletService _walletService = WalletService();
+  
   showLogin() {
     Get.bottomSheet(LoginPhone(),
         isScrollControlled: true,
@@ -45,7 +47,7 @@ class Authcontroller extends GetxController {
     }
     showLoader();
     final response = await _apiService.sendVerifyOtp(mobileEC.text, otpEC.text);
-    log("otp :::::: ${response.data}");
+    log("otp :::::: ${json.encode(response.data)}");
     Get.find<AppController>().accountToken = response.data['accountToken'];
     removeLoader();
     Get.back();

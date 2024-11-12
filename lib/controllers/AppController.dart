@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 class AppController extends GetxController{
   String accountToken = "";
+  RxInt navIndex = 0.obs;
   splashinitilized(){
     Future.delayed(Duration(seconds: 3),(){
       Get.offAllNamed(AppRoutes.onboard);

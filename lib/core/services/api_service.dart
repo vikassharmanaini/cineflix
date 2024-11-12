@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:cineflix/core/models/contentModel.dart';
 import 'package:cineflix/core/services/apiindex.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -93,5 +94,24 @@ class ApiService {
             headers: {..._header, "Authorization": "Bearer $headerToken"}));
     log("request :::: ${response.data}");
     return response;
+  }
+
+  Future<Response> getTranding() async {
+    final re = await _dio.get(_apiService.getTrending);
+    // try {
+    //   (re.data['trends'] as List).map((e) => MediaContent.fromJson(e)).toList();
+    // } catch (e, s) {
+    //   log("$e $s");
+    // }
+    return re;
+  }
+
+  Future<Response> getNewRelease() async {
+    // try{
+
+    // }
+    final re = await _dio.get(_apiService.getNewReleases);
+
+    return re;
   }
 }

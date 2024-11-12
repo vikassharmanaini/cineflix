@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class AppButtons {
-  Widget primary_button({callback, label, isdissable}) => Container(
-        width: 366,
-        height: 48,
+  Widget primary_button({callback, label, isdissable,width,height}) => Container(
+        width: width??366,
+        height: height??48,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
