@@ -6,6 +6,7 @@ import 'package:cineflix/app/routes/app_routes.dart';
 import 'package:cineflix/controllers/AppController.dart';
 import 'package:cineflix/core/services/api_service.dart';
 import 'package:cineflix/core/services/walletService.dart';
+import 'package:cineflix/views/home/homeView.dart';
 import 'package:cineflix/widgets/bottomsheets/otp_bottomsheet.dart';
 import 'package:cineflix/widgets/bottomsheets/phone_bottomsheet.dart';
 import 'package:cineflix/widgets/commonWidgets.dart';
@@ -41,7 +42,7 @@ class Authcontroller extends GetxController {
   }
 
   loginOtp() async {
-    if (otpEC.text.length != 4) {
+    if (otpEC.text.length != 6) {
       otpEr.value = "Please Enter valid OTP";
       return;
     }
@@ -49,6 +50,7 @@ class Authcontroller extends GetxController {
     final response = await _apiService.sendVerifyOtp(mobileEC.text, otpEC.text);
     log("otp :::::: ${json.encode(response.data)}");
     Get.find<AppController>().accountToken = response.data['accountToken'];
+    final profile = response.data['accountDetail']['profiles'];
     removeLoader();
     Get.back();
     Get..back();
@@ -65,10 +67,7 @@ class Authcontroller extends GetxController {
   Rx<Uint8List> imagedata = Uint8List(0).obs;
 
   createProfile() async {
-    ShowMToast(Get.context!).successToast(
-        message: "df",
-        alignment: Alignment.bottomCenter,
-        backgroundColor: Color(0xFF2D3438));
+  
     if (name.text.isEmpty || !GetUtils.isEmail(email.text) || dob.text.isEmpty)
       return;
     showLoader();
@@ -82,5 +81,6 @@ class Authcontroller extends GetxController {
         dob: dob.text);
     log("create Profile ::::: ${response.data}");
     removeLoader();
+    Get.offAll(HomeView());
   }
 }

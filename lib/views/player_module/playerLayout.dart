@@ -14,7 +14,8 @@ class PlayerModule extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Obx(() => SafeArea(
-              top: !_playerController.isFullScreen.value,
+              top: false,
+              // !_playerController.isFullScreen.value,
               bottom: !_playerController.isFullScreen.value,
               right: !_playerController.isFullScreen.value,
               left: !_playerController.isFullScreen.value,
@@ -28,11 +29,15 @@ class PlayerModule extends StatelessWidget {
                               ? Stack(
                                   alignment: Alignment.bottomCenter,
                                   children: [
-                                    Image.network(
-                                      "https://images-cdn.ubuy.co.in/6352289f38bb253c44612d53-interstellar-movie-poster-24-x-36-inches.jpg",
-                                      height: 452,
-                                      width: constraints.maxWidth,
-                                      fit: BoxFit.cover,
+                                    Container(
+                                      height:500,
+                                      child: Image.network(
+                                        "https://images-cdn.ubuy.co.in/6352289f38bb253c44612d53-interstellar-movie-poster-24-x-36-inches.jpg",
+                                        height:500,
+                                        scale: 3,
+                                        width: constraints.maxWidth,
+                                        fit: BoxFit.fill,
+                                      ),
                                     ),
                                     Container(
                                       height: 170,
@@ -41,7 +46,8 @@ class PlayerModule extends StatelessWidget {
                                               begin: Alignment.bottomCenter,
                                               end: Alignment.topCenter,
                                               colors: [
-                                            const Color(0xFF00040E),
+                                            const Color.fromARGB(255, 0, 0, 0),
+                                            const Color.fromARGB(147, 0, 0, 0),
                                             const Color(0x1F00040E)
                                           ])),
                                       padding: const EdgeInsets.symmetric(

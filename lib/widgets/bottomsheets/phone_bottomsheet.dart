@@ -1,6 +1,9 @@
 import 'package:cineflix/controllers/authController.dart';
 import 'package:cineflix/widgets/AppButtons.dart';
 import 'package:cineflix/widgets/app_text_feild.dart';
+import 'package:country_picker/country_picker.dart';
+import 'package:country_pickers/country_picker_dialog.dart';
+import 'package:country_pickers/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -96,42 +99,79 @@ class LoginPhone extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                               ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    width: 20,
-                                    clipBehavior: Clip.antiAlias,
-                                    decoration: ShapeDecoration(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(30),
+                              child: GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => Theme(
+                                        data: Theme.of(context).copyWith(
+                                            primaryColor: Colors.pink),
+                                        child: CountryPickerDialog(
+                                            titlePadding: EdgeInsets.all(8.0),
+                                            searchCursorColor:
+                                                Colors.pinkAccent,
+                                            searchInputDecoration:
+                                                InputDecoration(
+                                                    hintText: 'Search...'),
+                                            isSearchable: true,
+                                            title:
+                                                Text('Select your phone code'),
+                                            onValuePicked: (country) =>
+                                                Container(
+                                                  child: Row(
+                                                    children: <Widget>[
+                                                      CountryPickerUtils
+                                                          .getDefaultFlagImage(
+                                                              country),
+                                                      SizedBox(
+                                                        width: 8.0,
+                                                      ),
+                                                      Text(
+                                                          "+${country.phoneCode}(${country.isoCode})"),
+                                                    ],
+                                                  ),
+                                                ))),
+                                  );
+                                },
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      width: 20,
+                                      clipBehavior: Clip.antiAlias,
+                                      decoration: ShapeDecoration(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                        ),
+                                      ),
+                                      child: Text("${Country.parse("IN").flagEmoji}")
+                                    ),
+                                    const SizedBox(width: 12),
+                                    Text(
+                                      '+91',
+                                      style: TextStyle(
+                                        color: Color(0xFF8596A2),
+                                        fontSize: 16,
+                                        fontFamily: 'SF Pro',
+                                        fontWeight: FontWeight.w400,
+                                        height: 0.07,
+                                        letterSpacing: 0.20,
                                       ),
                                     ),
-                                    child: FlutterLogo(),
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Text(
-                                    '+91',
-                                    style: TextStyle(
-                                      color: Color(0xFF8596A2),
-                                      fontSize: 16,
-                                      fontFamily: 'SF Pro',
-                                      fontWeight: FontWeight.w400,
-                                      height: 0.07,
-                                      letterSpacing: 0.20,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 12),
-                                ],
+                                    const SizedBox(width: 12),
+                                  ],
+                                ),
                               ),
                             ),
                             const SizedBox(width: 12),
-                            Expanded(child: AppTextFeild(
-                                text: number,
-                                EC: _authController.mobileEC,
-                             )),
+                            Expanded(
+                                child: AppTextFeild(
+                              text: number,
+                              EC: _authController.mobileEC,
+                            )),
                           ],
                         ),
                       ),

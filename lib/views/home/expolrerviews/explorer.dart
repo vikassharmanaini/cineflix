@@ -1,8 +1,11 @@
 import 'dart:developer';
+import 'dart:math';
 
 import 'package:cineflix/core/models/contentModel.dart';
 import 'package:cineflix/core/services/api_service.dart';
+import 'package:cineflix/dummydata.dart';
 import 'package:cineflix/resources/colors.dart';
+import 'package:cineflix/views/home/expolrerviews/bannerrotated.dart';
 import 'package:cineflix/views/home/expolrerviews/explorerView.dart';
 import 'package:cineflix/views/movieSeries.dart';
 import 'package:cineflix/views/player_module/playerLayout.dart';
@@ -125,19 +128,66 @@ class ExplorerView extends StatelessWidget {
                               Get.to(() => PlayerModule());
                             }
                           },
-                          child: Column(
+                          child:
+                         (i ==
+                                ((content != null ? content.length + 1 : 10) -
+                                    1))? 
+                          Container(
+  width: 157,
+  height: 100,
+  child: Stack(
+    alignment: Alignment.center,
+    children: [
+      Positioned(
+        left: 0,
+        top: 0,
+        child: Container(
+          width: 157,
+          height: 100,
+          decoration: ShapeDecoration(
+            color: Color(0xFF33363C),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shadows: [
+              BoxShadow(
+                color: Color(0x87000000),
+                blurRadius: 21,
+                offset: Offset(0, 4),
+                spreadRadius: 0,
+              )
+            ],
+          ),
+        ),
+      ),
+      Text(
+        'View All',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Color(0xFFF2AA4C),
+          fontSize: 16,
+          fontFamily: 'SF Pro Display',
+          fontWeight: FontWeight.w600,
+          height: 0.06,
+          letterSpacing: -0.05,
+        ),
+      ),
+    ],
+  ),
+): Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              
                               Container(
                                 margin:
                                     const EdgeInsets.symmetric(horizontal: 5),
                                 width: 153,
                                 height: 100,
                                 decoration: ShapeDecoration(
-                                  image: DecorationImage(
+                                  image:(i ==
+                                ((content != null ? content.length + 1 : 10) -
+                                    1))?null: DecorationImage(
                                     image: NetworkImage(mediaContent != null
                                         ? "${mediaContent.posterUrl!.replaceAll('ibb', 'i.ibb')}/image.png"
-                                        : "https://via.placeholder.com/153x100"),
+                                        : (banner['banner'] as List)[Random(i).nextInt((banner['banner'] as List).length)]),
                                     fit: BoxFit.fill,
                                   ),
                                   shape: RoundedRectangleBorder(
@@ -221,87 +271,7 @@ class ExplorerView extends StatelessWidget {
     );
   }
 
-  Stack posterbanner() {
-    return Stack(
-      children: [
-        Container(
-            width: Get.width,
-            height: 448,
-            color: Colors.white,
-            child: Image.network(
-              "https://m.media-amazon.com/images/I/61OmlO9stnL.jpg",
-              fit: BoxFit.cover,
-            )),
-        Container(
-          height: 120,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment(0.00, -1.00),
-              end: Alignment(0, 1),
-              colors: [Colors.black, Colors.black.withOpacity(0)],
-            ),
-          ),
-          child: SafeArea(
-            child: Row(
-              children: [
-                width_space(20),
-                logoWidget(height: 30),
-                Spacer(),
-                Icon(Icons.cast),
-                width_space(20),
-                Icon(
-                  TablerIcons.user_circle,
-                  color: AppColors().indicator,
-                ),
-                width_space(20),
-              ],
-            ),
-          ),
-        ),
-        Positioned(
-          bottom: 0,
-          child: Container(
-            width: 430,
-            height: 187,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment(0.00, -1.00),
-                end: Alignment(0, 1),
-                colors: [
-                  Colors.black.withOpacity(0),
-                  Colors.black.withOpacity(0.7)
-                ],
-              ),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Column(
-                      children: [
-                        Icon(Icons.info_outline),
-                        Text(
-                          "Info",
-                          style: TextStyle(color: Colors.white),
-                        )
-                      ],
-                    ),
-                    width_space(40),
-                    AppButtons().primary_button(
-                        width: 140.0, height: 45.0, label: "Watch now"),
-                    width_space(40),
-                  ],
-                ),
-                height_space(20),
-                Center(child: onboardIndicator(1, 5)),
-                height_space(10),
-              ],
-            ),
-          ),
-        )
-      ],
-    );
+   posterbanner() {
+    return BannerRotated();
   }
 }

@@ -38,12 +38,13 @@ class ApiService {
   }
 
   Future<Response> sendOTP(mobile) async {
+    
     final response = await _dio.post(_apiService.sendOTP,
         data: {"mobile": mobile},
         options: Options(
           headers: _header,
         ));
-
+log("url ${_apiService.sendOTP} data ${ {"mobile": mobile}} response ${response.data}" );
     return response;
   }
 
@@ -82,18 +83,23 @@ class ApiService {
       "userName": username
     }}");
 
-    final response = await _dio.post(_apiService.createprofile,
-        data: {
-          "email": email,
-          "dob": dob,
-          "mobile": mobilenumber,
-          "profile": imageurl,
-          "userName": username
-        },
-        options: Options(
-            headers: {..._header, "Authorization": "Bearer $headerToken"}));
-    log("request :::: ${response.data}");
-    return response;
+    try {
+  final response = await _dio.post(_apiService.createprofile,
+      data: {
+        "email": email,
+        "dob": dob,
+        "mobile": mobilenumber,
+        "profile": imageurl,
+        "userName": username
+      },
+      options: Options(
+          headers: {..._header, "Authorization": "Bearer $headerToken"}));
+  log("request :::: ${response.data}");
+  return response;
+}  catch (e) {
+  // TODO
+  return (e as DioException).response!;
+}
   }
 
   Future<Response> getTranding() async {

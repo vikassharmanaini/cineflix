@@ -75,6 +75,7 @@ class OtpBottomSheet extends StatelessWidget {
                   Container(
                     width: double.infinity,
                     child: Pinput(
+                      length: 6,
                       controller: _controller.otpEC,
                       defaultPinTheme: PinTheme(
                           height: 48,

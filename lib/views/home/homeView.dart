@@ -57,7 +57,7 @@ class HomeView extends StatelessWidget {
                 ),
               ),
               Positioned(
-                left: 29.81,
+                left: Get.width/5-50,
                 top: 46,
                 child: InkWell(
                   onTap: () => controller.navIndex.value = 0,
@@ -113,12 +113,12 @@ class HomeView extends StatelessWidget {
                 ),
               ),
               Positioned(
-                left: 106.46,
+              left: (Get.width/4),
                 top: 46,
                 child: InkWell(
                   onTap: () => controller.navIndex.value = 1,
                   child: Container(
-                    width: 32,
+                    width: 40,
                     height: 39.67,
                     child: Stack(
                       children: [
@@ -169,8 +169,8 @@ class HomeView extends StatelessWidget {
                 ),
               ),
               Positioned(
-                left: 175,
-                top: 35,
+                left: Get.width/2.3-6,
+                top: 34,
                 child: Container(
                   width: 81,
                   height: 41,
@@ -186,7 +186,7 @@ class HomeView extends StatelessWidget {
                 ),
               ),
               Positioned(
-                left: 181,
+                left: Get.width/2.3,
                 top: 0,
                 child: Container(
                   width: 69,
@@ -244,12 +244,12 @@ class HomeView extends StatelessWidget {
                 ),
               ),
               Positioned(
-                left: 277.33,
+                left: Get.width/1.5,
                 top: 46,
                 child: InkWell(
                   onTap: () => controller.navIndex.value = 3,
                   child: Container(
-                    width: 51,
+                    width:60,
                     height: 39.59,
                     child: Stack(
                       children: [
@@ -300,7 +300,7 @@ class HomeView extends StatelessWidget {
                 ),
               ),
               Positioned(
-                left: 367.76,
+                left: Get.width/1.15,
                 top: 46,
                 child: InkWell(
                   onTap: () => controller.navIndex.value = 4,
