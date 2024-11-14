@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:reown_appkit/reown_appkit.dart';
 
@@ -16,7 +18,7 @@ final appKit =await ReownAppKit.createInstance(
     redirect: Redirect(
       native: 'torusapp://org.torusresearch.flutter.web3authexample',
       universal: 'https://reown.com/exampleapp',
-      linkMode: true
+      linkMode:false
     ),
   ),
 );
@@ -30,7 +32,15 @@ final appKitModal = ReownAppKitModal(
 
 // Register here the event callbacks on the service you'd like to use. See `Events` section.
 
-await appKitModal.init();
+try {
+  await appKitModal.init();
+
+await appKit.connect();
+}  catch (e) {
+
+  log("message $e");
+  // TODO
+}
   }
   
 }
