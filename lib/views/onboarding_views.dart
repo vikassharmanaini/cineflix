@@ -13,11 +13,55 @@ import 'package:cineflix/widgets/commonWidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marquee_list/marquee_list.dart';
+import 'package:reown_appkit/reown_appkit.dart';
 
-class OnboardingViews extends StatelessWidget {
+class OnboardingViews extends StatefulWidget {
   OnboardingViews({super.key});
+
+  @override
+  State<OnboardingViews> createState() => _OnboardingViewsState();
+}
+
+class _OnboardingViewsState extends State<OnboardingViews> {
   final controller = PageController();
+
   final _logincontroller = Get.put(Authcontroller());
+
+  final _appKitModal = ReownAppKitModal(
+    context: Get.context!,
+    projectId: '0c78392dd1944a7d725e77cf6578c8df',
+    metadata: const PairingMetadata(
+      name: 'Cinefilix',
+      description: 'Enjoy WEB3 OTT',
+      url: 'https://example.com/',
+      icons: ['https://example.com/logo.png'],
+      redirect: Redirect(
+          native: 'torusapp://org.torusresearch.flutter.web3authexample',
+          universal: 'https://reown.com/exampleapp',
+          linkMode: false),
+    ),
+  );
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initializeWallet();
+  }
+
+  initializeWallet() async {
+    try {
+      await _appKitModal.appKit!.init();
+    } catch (e) {
+      print(e);
+    }
+
+    try {
+      await _appKitModal.init();
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -219,19 +263,39 @@ class OnboardingViews extends StatelessWidget {
                             _logincontroller.showLogin();
                           }),
                           height_space(30),
-                          AppButtons().primary_button(
-                              callback: () {
-                                _logincontroller.loginWithWallet();
-                              },
-                              label: "Connect Web3 Wallet"),
+                          AppKitModalConnectButton(
+                            context: Get.context,
+                            appKit: _appKitModal,
+                            custom: AppButtons().primary_button(
+                                callback: () async {
+                                  try {
+                                    await _appKitModal.disconnect();
+                                    await _appKitModal.openModalView();
+                                    if (_appKitModal.isConnected) {
+                                      showLoader();
+                                      try {
+                                        await ApiService().loginwallet(
+                                            _appKitModal.session!.address);
+                                      } catch (e) {
+                                        // TODO
+                                      }
+                                      removeLoader();
+                                      Get.offAllNamed(AppRoutes.profile);
+                                    }
+                                  } catch (e) {
+                                    print(
+                                        "error ${(e as ReownAppKitModalException).message}");
+                                  }
+                                },
+                                label: "Connect Web3 Wallet"),
+                          ),
                           height_space(30),
                           GestureDetector(
-                            onTap: (){
+                            onTap: () {
                               Get.offAllNamed(AppRoutes.home);
                             },
-                            child: Text("Skip",style:TextStyle(
-                              color:AppColors().indicator
-                            )),
+                            child: Text("Skip",
+                                style: TextStyle(color: AppColors().indicator)),
                           )
                         ],
                       ),

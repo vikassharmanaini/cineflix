@@ -35,7 +35,6 @@ final appKitModal = ReownAppKitModal(
 try {
   await appKitModal.init();
 
-await appKit.connect();
 }  catch (e) {
 
   log("message $e");
