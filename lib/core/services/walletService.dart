@@ -13,6 +13,7 @@ import 'package:web3auth_flutter/enums.dart';
 import 'package:web3auth_flutter/input.dart';
 import 'package:web3auth_flutter/output.dart';
 import 'package:web3auth_flutter/web3auth_flutter.dart';
+
 class WalletService {
 //   final _client = WalletConnectV2();
 // final _walletMetadata = AppMetadata(
@@ -22,52 +23,51 @@ class WalletService {
 //       icons: ['https://avacus.cc/apple-icon-180x180.png'],
 //       redirect: 'wcexample');
 
+  Future<void> initPlatformState() async {
+    final themeMap = HashMap<String, String>();
+    themeMap['primary'] = "#fff000";
 
-Future<void> initPlatformState() async {
-  final themeMap = HashMap<String, String>();
-  themeMap['primary'] = "#fff000";
+    Uri redirectUrl;
+    if (Platform.isAndroid) {
+      redirectUrl = Uri.parse(
+        'torusapp://org.torusresearch.flutter.web3authexample/auth',
+      );
+    } else if (Platform.isIOS) {
+      redirectUrl =
+          Uri.parse('torusapp://org.torusresearch.flutter.web3authexample');
+    } else {
+      throw UnKnownException('Unknown platform');
+    }
 
-  Uri redirectUrl;
-  if (Platform.isAndroid) {
-    redirectUrl = Uri.parse(
-      'torusapp://org.torusresearch.flutter.web3authexample/auth',
-    );
-  } else if (Platform.isIOS) {
-    redirectUrl =
-        Uri.parse('torusapp://org.torusresearch.flutter.web3authexample');
-  } else {
-    throw UnKnownException('Unknown platform');
-  }
-  
-  await Web3AuthFlutter.init(
-    Web3AuthOptions(
-      clientId:
-          'BFbp16SNn6vYMccZ7fp7RcSekeKPZge9EwU7VZJGcqBU93wvflfOxwVlyuHYZ_xEPgIvv-FdtfltRcFCuWX9c6c',
-      network: Network.sapphire_devnet,
-      redirectUrl: redirectUrl,
-      whiteLabel: WhiteLabelData(
-        mode: ThemeModes.dark,
-        appName: "Web3Auth Flutter App",
-        theme: themeMap,
+    await Web3AuthFlutter.init(
+      Web3AuthOptions(
+        clientId:
+            'BFbp16SNn6vYMccZ7fp7RcSekeKPZge9EwU7VZJGcqBU93wvflfOxwVlyuHYZ_xEPgIvv-FdtfltRcFCuWX9c6c',
+        network: Network.mainnet,
+        buildEnv: BuildEnv.testing,
+        redirectUrl: redirectUrl,
+        whiteLabel: WhiteLabelData(
+          mode: ThemeModes.dark,
+          appName: "Cinflix",
+          theme: themeMap,
+        ),
       ),
-    ),
-  );
+    );
 
-  // Call initialize() function to get privKey and user information without relogging in user if a user has an active session
-  await Web3AuthFlutter.initialize();
+    // Call initialize() function to get privKey and user information without relogging in user if a user has an active session
+    await Web3AuthFlutter.initialize();
 
-  // Call getPrivKey() function to get user private key
-  final String privKey = await Web3AuthFlutter.getPrivKey();
+    // Call getPrivKey() function to get user private key
+    final String privKey = await Web3AuthFlutter.getPrivKey();
 
-  // Call getEd25519PrivKey() function to get user ed25519 private key
-  final String ed255199PrivKey = await Web3AuthFlutter.getEd25519PrivKey();
+    // Call getEd25519PrivKey() function to get user ed25519 private key
+    final String ed255199PrivKey = await Web3AuthFlutter.getEd25519PrivKey();
 
-  // Call getUserInfo() function to get user information like name, email, verifier, verifierId etc.
-  final TorusUserInfo userInfo = await Web3AuthFlutter.getUserInfo();
+    // Call getUserInfo() function to get user information like name, email, verifier, verifierId etc.
+    final TorusUserInfo userInfo = await Web3AuthFlutter.getUserInfo();
 
-  await Web3AuthFlutter.login(LoginParams(loginProvider: Provider.google));
-
-}
+    await Web3AuthFlutter.login(LoginParams(loginProvider: Provider.google));
+  }
 
   initConnetion() async {
     await initPlatformState();
