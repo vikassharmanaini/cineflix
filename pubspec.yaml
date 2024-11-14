@@ -29,11 +29,12 @@ dependencies:
   tabler_icons: ^2.5.0+1
   video_player: ^2.9.2
   # walletconnect_flutter:
-  walletconnect_dart:
+  # walletconnect_dart:
   # web3modal_flutter: ^3.0.1
   web3auth_flutter:
   flutter_web3:
-  reown_appkit: ^1.0.0
+  reown_appkit: 1.0.0
+  logger: ^2.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
