@@ -20,41 +20,38 @@ class Player extends StatefulWidget {
 
 class _PlayerState extends State<Player> {
   final controlller = Get.find<Playercontroller>();
- int index =0;
+  int index = 0;
   @override
-  void initState() { 
+  void initState() {
     super.initState();
     checkstate();
   }
-checkstate(){
-  Timer.periodic(Duration(milliseconds: 700), (s){
-    if(mounted)
-    setState(() {
-      
+
+  checkstate() {
+    Timer.periodic(Duration(milliseconds: 700), (s) {
+      if (mounted) setState(() {});
     });
-  });
-  Timer.periodic(Duration(milliseconds: 10000), (s){
-    if(mounted)
-    setState(() {
-     index =1;
+    Timer.periodic(Duration(milliseconds: 10000), (s) {
+      if (mounted)
+        setState(() {
+          index = 1;
+        });
+      Timer.periodic(Duration(milliseconds: 4000), (s) {
+        if (mounted)
+          setState(() {
+            index = 0;
+          });
+      });
     });
-     Timer.periodic(Duration(milliseconds: 4000), (s){
-    if(mounted)
-    setState(() {
-     index=0;
-      
-    });
-  });
-  });
- 
-}
+  }
+
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => PopScope(
         onPopInvoked: (didPop) {
-          if(!controlller.isFullScreen.value){
-            controlller.isFullScreen.value=false;
+          if (!controlller.isFullScreen.value) {
+            controlller.isFullScreen.value = false;
           }
         },
         canPop: !controlller.isFullScreen.value,
@@ -79,7 +76,7 @@ checkstate(){
                     // onScaleUpdate: (details) {
                     //   controlller.scale.value =
                     //       controlller.previousScale.value * details.scale;
-            
+
                     //   // Calculate offset based on focal point
                     //   Offset delta = details.focalPoint -
                     //       controlller.startingFocalPoint.value;
@@ -93,7 +90,9 @@ checkstate(){
                             controlller.offset.value.dy)
                         ..scale(controlller.scale.value),
                       child: AspectRatio(
-                          aspectRatio:controlller.isFullScreen.value?Get.width/Get.height: 3.5 / 2,
+                          aspectRatio: controlller.isFullScreen.value
+                              ? Get.width / Get.height
+                              : 3.5 / 2,
                           child: Get.find<Playercontroller>().initialized
                               ? AspectRatio(
                                   aspectRatio: Get.find<Playercontroller>()
@@ -112,23 +111,20 @@ checkstate(){
                 ),
               ),
             ),
-            if(index!=0)
-            Positioned(
-              left: 40,
-              child: RotatedBox(
-                quarterTurns: 0,
-                child: AnimatedTextKit(
-                  repeatForever: true,
-                  
-                  animatedTexts: [
-                   RotateAnimatedText('+10 CNF',
-                   
-                   transitionHeight: 50,
-                   duration: Duration(seconds: 4),rotateOut: false),
-                          // RotateAnimatedText(''),
-                          // RotateAnimatedText(''),
-                ]),
-              )),
+            if (index != 0)
+              Positioned(
+                  left: 40,
+                  child: RotatedBox(
+                    quarterTurns: 0,
+                    child: AnimatedTextKit(repeatForever: true, animatedTexts: [
+                      RotateAnimatedText('+10 CNF',
+                          transitionHeight: 50,
+                          duration: Duration(seconds: 4),
+                          rotateOut: false),
+                      // RotateAnimatedText(''),
+                      // RotateAnimatedText(''),
+                    ]),
+                  )),
             if (!controlller.hidecontroller.value)
               Container(
                 height: controlller.isFullScreen.value ? Get.height : 250,
@@ -153,7 +149,7 @@ checkstate(){
                                 onTap: () {
                                   if (controlller.isFullScreen.value) {
                                     controlller.onfullScreen();
-                                  }else{
+                                  } else {
                                     controlller.controller!.pause();
 
                                     Get.back();
@@ -178,8 +174,11 @@ checkstate(){
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               InkWell(
-                                onTap: (){
-                                  controlller.controller!.seekTo(Duration(seconds: controlller.controller!.value.position.inSeconds-10));
+                                onTap: () {
+                                  controlller.controller!.seekTo(Duration(
+                                      seconds: controlller.controller!.value
+                                              .position.inSeconds -
+                                          10));
                                 },
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
@@ -190,19 +189,21 @@ checkstate(){
                                     ),
                                     Text(
                                       "10 sec",
-                                      style: Theme.of(context).textTheme.labelSmall,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall,
                                     )
                                   ],
                                 ),
                               ),
                               Obx(
-                                ()=> GestureDetector(
+                                () => GestureDetector(
                                   onTap: () async {
                                     try {
-                                       
                                       !controlller.controller!.value.isPlaying
-                                        ? await controlller.controller!.play()
-                                        : await controlller.controller!.pause();
+                                          ? await controlller.controller!.play()
+                                          : await controlller.controller!
+                                              .pause();
                                     } catch (e) {
                                       Get.dialog(AlertDialog(
                                         title: const Text("Error"),
@@ -211,15 +212,22 @@ checkstate(){
                                     }
                                   },
                                   child: Icon(
-                             controlller.isPlaying.value &&   controlller.controller!.value.isPlaying?  Icons.pause  :Icons.play_arrow_rounded,
+                                    controlller.isPlaying.value &&
+                                            controlller
+                                                .controller!.value.isPlaying
+                                        ? Icons.pause
+                                        : Icons.play_arrow_rounded,
                                     size: 50,
                                   ),
                                 ),
                               ),
-                        InkWell(
-                          onTap: (){
-                            controlller.controller!.seekTo(Duration(seconds: controlller.controller!.value.position.inSeconds+10));
-                          },
+                              InkWell(
+                                onTap: () {
+                                  controlller.controller!.seekTo(Duration(
+                                      seconds: controlller.controller!.value
+                                              .position.inSeconds +
+                                          10));
+                                },
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
@@ -229,7 +237,9 @@ checkstate(){
                                     ),
                                     Text(
                                       "10 sec",
-                                      style: Theme.of(context).textTheme.labelSmall,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall,
                                     )
                                   ],
                                 ),
@@ -279,52 +289,47 @@ checkstate(){
                               ),
                               child: Slider(
                                   allowedInteraction:
-                                      SliderInteraction.slideThumb,
+                                      SliderInteraction.tapAndSlide,
                                   secondaryTrackValue: 0.4,
                                   thumbColor: Colors.amber,
                                   activeColor: AppThemes().primmaryBottonColor,
-                                  value: controlller.controller!.value.position
-                                      .inSeconds
+                                  value: controlller
+                                      .controller!.value.position.inSeconds
                                       .toDouble(),
                                   min: 0,
-                                  max:controlller.controller!.value.duration
-                                      .inSeconds
+                                  max: controlller
+                                      .controller!.value.duration.inSeconds
                                       .toDouble(),
-                                  
-
-                                  onChanged: (D) async{
-                                  ShowMToast(Get.context!).successToast(message: "message", alignment: Alignment.bottomCenter);
-                                  await  controlller.controller!.seekTo(
-                                        Duration(seconds: D.toInt()));
+                  onChanged: (value) {
+                                    controlller.controller!.seekTo(
+                                        Duration(seconds: value.toInt()));
+                                  },
+                                  onChangeStart: (D) async {
+                                    // Get.snackbar("Change Started", "message");
+                                    // ShowMToast(Get.context!).successToast(
+                                    //     message: "message",
+                                    //     alignment: Alignment.bottomCenter);
+                                    // await controlller.controller!
+                                    //     .seekTo(Duration(seconds: D.toInt()));
                                   },
                                   onChangeEnd: (D) {
-                                  ShowMToast(Get.context!).successToast(message: "message", alignment: Alignment.bottomCenter);
+                                    // ShowMToast(Get.context!).successToast(
+                                    //     message: "message",
+                                    //     alignment: Alignment.bottomCenter);
 
-                                    controlller.controller!.seekTo(
-                                        Duration(seconds: D.toInt()));
-                                        
+                                    // controlller.controller!
+                                    //     .seekTo(Duration(seconds: D.toInt()));
                                   }),
                             ),
                           ),
                           horizontal_spacehalf(),
-                           SizedBox(
+                          SizedBox(
                             width: 60,
-                             child: Center(
-                               child: Text("${
-                                controlller.controller!.value.duration.inHours.toString().length==1?"0":""
-                               }${
-                                                         controlller.controller!.value.duration.inHours
-                                                         }:${
-                         (       controlller.controller!.value.duration.inMinutes%60).toString().length==1?"0":""
-                               }${
-                                                         controlller.controller!.value.duration.inMinutes%60
-                                                         }.${
-                                (controlller.controller!.value.duration.inMinutes%60).toString().length==1?"0":""
-                               }${
-                                                         controlller.controller!.value.duration.inSeconds%60
-                                                         }"),
-                             ),
-                           ),
+                            child: Center(
+                              child: Text(
+                                  "${controlller.controller!.value.duration.inHours.toString().length == 1 ? "0" : ""}${controlller.controller!.value.duration.inHours}:${(controlller.controller!.value.duration.inMinutes % 60).toString().length == 1 ? "0" : ""}${controlller.controller!.value.duration.inMinutes % 60}.${(controlller.controller!.value.duration.inMinutes % 60).toString().length == 1 ? "0" : ""}${controlller.controller!.value.duration.inSeconds % 60}"),
+                            ),
+                          ),
                           horizontal_space()
                         ],
                       ),

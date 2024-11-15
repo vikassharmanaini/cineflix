@@ -35,7 +35,7 @@ class Authcontroller extends GetxController {
       return;
     }
     showLoader();
-    final response = await _apiService.sendOTP(mobileEC.text);
+    final response = await _apiService.sendOTP(mobileEC.text,"+91");
     print(response.data);
     removeLoader();
     Get.bottomSheet(OtpBottomSheet());

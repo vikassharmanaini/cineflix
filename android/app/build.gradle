@@ -32,13 +32,47 @@ android {
 
     buildTypes {
         release {
+            // minifyEnabled false
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
+            //  proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        
             signingConfig = signingConfigs.debug
         }
+        // postprocessing {
+        //         // proguardFiles += [
+        //         //     """
+        //         //     -dontwarn javax.naming.NamingEnumeration
+        //         //     -dontwarn javax.naming.NamingException
+        //         //     -dontwarn javax.naming.directory.Attribute
+        //         //     -dontwarn javax.naming.directory.Attributes
+        //         //     -dontwarn javax.naming.directory.DirContext
+        //         //     -dontwarn javax.naming.directory.InitialDirContext
+        //         //     -dontwarn javax.naming.directory.SearchControls
+        //         //     -dontwarn javax.naming.directory.SearchResult
+        //         //     -dontwarn org.bouncycastle.jsse.BCSSLParameters
+        //         //     -dontwarn org.bouncycastle.jsse.BCSSLSocket
+        //         //     -dontwarn org.bouncycastle.jsse.provider.BouncyCastleJsseProvider
+        //         //     -dontwarn org.conscrypt.Conscrypt$Version
+        //         //     -dontwarn org.conscrypt.Conscrypt
+        //         //     -dontwarn org.conscrypt.ConscryptHostnameVerifier
+        //         //     -dontwarn org.openjsse.javax.net.ssl.SSLParameters
+        //         //     -dontwarn org.openjsse.javax.net.ssl.SSLSocket
+        //         //     -dontwarn org.openjsse.net.ssl.OpenJSSE
+        //         //     -dontwarn org.slf4j.impl.StaticLoggerBinder
+        //         //     """
+        //         // ]
+        //     }
     }
-}
+   
 
+}
+//  dependencies {
+//     implementation 'org.bouncycastle:bcprov-jdk15on:1.70'  // Add BouncyCastle library
+//     implementation 'org.bouncycastle:bcpkix-jdk15on:1.70'  // Add BouncyCastle PKIX
+//     implementation 'com.squareup.okhttp3:okhttp:4.9.3'      // Add OkHttp
+//     implementation 'org.slf4j:slf4j-api:1.7.32'             // Add SLF4J for logging
+// }
 flutter {
     source = "../.."
 }

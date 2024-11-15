@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tabler_icons/tabler_icons.dart';
 
 class WidgetModels {
   List<Map> playerButtonOptions() => [
         {
           "icon": Icons.thumb_up_alt_outlined,
           "text": "Like",
+          "active":Icons.thumb_up_alt,
         },
         {
           "icon": Icons.thumb_down_alt_outlined,
-          "text": "Dislike",
+          "text": "Not For Me",
+          "active":Icons.thumb_down_alt,
+
         },
         {
           "icon": Icons.add,
           "text": "Watchlist",
+          "active":Icons.check
         },
         {
-          "icon": Icons.share,
+          "icon": TablerIcons.share,
           "text": "Share",
         }
       ];

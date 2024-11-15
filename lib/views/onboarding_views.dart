@@ -263,32 +263,34 @@ class _OnboardingViewsState extends State<OnboardingViews> {
                             _logincontroller.showLogin();
                           }),
                           height_space(30),
-                          AppKitModalConnectButton(
-                            context: Get.context,
-                            appKit: _appKitModal,
-                            custom: AppButtons().primary_button(
-                                callback: () async {
-                                  try {
-                                    await _appKitModal.disconnect();
-                                    await _appKitModal.openModalView();
-                                    if (_appKitModal.isConnected) {
-                                      showLoader();
-                                      try {
-                                        await ApiService().loginwallet(
-                                            _appKitModal.session!.address);
-                                      } catch (e) {
-                                        // TODO
+                     
+                            AppKitModalConnectButton(
+                              context: Get.context,
+                              appKit: _appKitModal,
+                              custom: AppButtons().primary_button(
+                                  callback: () async {
+                                    try {
+                                      await _appKitModal.disconnect();
+                                      await _appKitModal.openModalView();
+                                      if (_appKitModal.isConnected) {
+                                        showLoader();
+                                        try {
+                                          await ApiService().loginwallet(
+                                              _appKitModal.session!.address);
+                                        } catch (e) {
+                                          // TODO
+                                        }
+                                        removeLoader();
+                                        Get.offAllNamed(AppRoutes.profile);
                                       }
-                                      removeLoader();
-                                      Get.offAllNamed(AppRoutes.profile);
+                                    } catch (e) {
+                                      print(
+                                          "error ${(e as ReownAppKitModalException).message}");
                                     }
-                                  } catch (e) {
-                                    print(
-                                        "error ${(e as ReownAppKitModalException).message}");
-                                  }
-                                },
-                                label: "Connect Web3 Wallet"),
-                          ),
+                                  },
+                                  label: "Connect Web3 Wallet"),
+                            ),
+                          
                           height_space(30),
                           GestureDetector(
                             onTap: () {

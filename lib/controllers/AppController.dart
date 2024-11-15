@@ -9,4 +9,5 @@ class AppController extends GetxController{
       Get.offAllNamed(AppRoutes.onboard);
       });
   }
+  
 }

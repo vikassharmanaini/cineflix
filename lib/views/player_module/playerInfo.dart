@@ -10,7 +10,8 @@ import 'package:flutter/material.dart';
 class PlayInfo extends StatelessWidget {
   PlayInfo({super.key});
   final controller = Get.find<Playercontroller>();
-
+// Suggested code may be subject to a license. Learn more: ~LicenseLog:3073761902.
+RxMap active = {}.obs;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -96,21 +97,35 @@ class PlayInfo extends StatelessWidget {
     );
   }
 
-  Row playeractions() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        for (var item in WidgetModels().playerButtonOptions())
-          Container(
-            child: Column(
-              children: [
-                Icon(item['icon']),
-                vertical_space(),
-                Text("${item['text']}")
-              ],
-            ),
-          )
-      ],
+  Widget playeractions() {
+    return Obx(
+()=> Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          for (var item in WidgetModels().playerButtonOptions())
+            InkWell(
+              onTap: () {
+                if(active[item['text']]==null){
+                  active[item['text']]=true;
+                  return;
+                }
+                active[item['text']]=!active[item['text']];
+              },
+              child: Container(
+                child: Column(
+                  children: [
+                    Icon(
+                      active[item['text']]==true?
+                      item['active']:
+                      item['icon']),
+                    vertical_space(),
+                    Text("${item['text']}")
+                  ],
+                ),
+              ),
+            )
+        ],
+      ),
     );
   }
 }
